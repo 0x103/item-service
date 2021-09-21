@@ -8,7 +8,6 @@ module.exports = {
             .createTable("items", function (table) {
                 table.increments("item_id");
                 table.string("studio_id").notNullable();
-                table.string("user_id");
                 table.string("name", 100).notNullable();
                 table.integer("total_quantity").notNullable();
                 table.integer("available_quantity").notNullable();
