@@ -12,6 +12,7 @@ import { AirlockMessage, Message } from "./Messages";
 export * from "./Messages";
 export * from "./Handlers";
 export * from "./Plugin";
+export * from "../utils";
 
 export enum AIRLOCK_VERBS {
   "GET" = "GET",

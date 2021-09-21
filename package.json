@@ -27,7 +27,7 @@
     },
     "homepage": "https://github.com/jwa-lab/item-service#readme",
     "devDependencies": {
-        "@jwalab/minilab": "^0.0.14"
+        "@jwalab/minilab": "^0.0.15"
     },
     "workspaces": [
         "./packages/*"

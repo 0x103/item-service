@@ -1,4 +1,5 @@
 import { JSONCodec, Msg, MsgHdrs } from "nats";
+import { parseJwtToNats } from "../utils/tokenParser";
 
 export class AirlockMessage {
   subject: string;
@@ -42,10 +43,16 @@ export class Message {
 }
 
 function natsHeadersToObject(headers: MsgHdrs): Record<string, unknown> {
-  const obj = Object.create(null);
+  let obj = Object.create(null);
 
-  for (const header in headers) {
-    obj[header] = headers.get(header);
+  for (const [key] of headers) {
+    obj[key] = headers.get(key);
+  }
+
+  if (obj['authorization']) {
+    const authProps = parseJwtToNats(obj['authorization']);
+
+    obj = {...obj, ...authProps}
   }
 
   return obj;

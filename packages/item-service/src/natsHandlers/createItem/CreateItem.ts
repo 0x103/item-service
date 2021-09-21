@@ -6,7 +6,8 @@ import {
     AirlockMessage,
     Message,
     Logger,
-    EventBus
+    EventBus,
+    isStudio
 } from "common";
 
 import { Item, itemSchema } from "../../entities/item";
@@ -32,7 +33,15 @@ export class CreateItemAirlockHandler extends AirlockHandler {
     }
 
     async handle(msg: AirlockMessage): Promise<{ item_id: number }> {
-        const item = new Item(msg.body as Item);
+        if (!isStudio(msg.headers)) {
+            throw new Error("INVALID_JWT_STUDIO");
+        }
+
+        const itemProps = {
+            ...msg.body as { [key: string]: unknown },
+            "studio_id": msg.headers?.studio_id
+        };
+        const item = new Item(itemProps as Item);
 
         await itemSchema.validateAsync(item);
 

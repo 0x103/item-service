@@ -1,16 +1,16 @@
 import { JSONCodec, NatsConnection, SubscriptionOptions } from "nats";
 
-import {
-    AirlockHandler,
-    PrivateHandler,
-    AIRLOCK_VERBS,
-    AirlockMessage,
-    Message,
-    Logger
-} from "common";
+import { AIRLOCK_VERBS, AirlockHandler, AirlockMessage, Logger, Message, PrivateHandler } from "common";
 
 import { Item } from "../../entities/item";
 import { ItemRepository } from "../../repositories/ItemRepository";
+
+interface GetItemPayloadInterface {
+    item_id: number,
+    is_studio: string,
+    studio_id: string,
+    user_id: string
+}
 
 export class GetItemAirlockHandler extends AirlockHandler {
     readonly subject = "item.*";
@@ -37,7 +37,12 @@ export class GetItemAirlockHandler extends AirlockHandler {
 
         const response = await this.natsConnection.request(
             "item-service.get-item",
-            JSONCodec().encode(item_id)
+            JSONCodec().encode({
+                item_id,
+                is_studio: msg.headers?.is_studio,
+                studio_id: msg.headers?.studio_id,
+                user_id: msg.headers?.user_id
+            })
         );
 
         return JSONCodec<Item>().decode(response.data);
@@ -60,7 +65,20 @@ export class GetItemHandler extends PrivateHandler {
         super();
     }
 
-    handle(msg: Message): Promise<Item> {
-        return this.itemRepository.getItem(msg.data as number);
+    async handle(msg: Message): Promise<Item> {
+        const data = msg.data as GetItemPayloadInterface;
+        const fetchedItem = await this.itemRepository.getItem(data.item_id);
+
+        if (data?.is_studio !== "true") {
+            if (fetchedItem.user_id !== data?.user_id) {
+                throw new Error("INVALID_USER_ID");
+            }
+        } else {
+            if (fetchedItem.studio_id !== data?.studio_id) {
+                throw new Error("INVALID_STUDIO_ID");
+            }
+        }
+
+        return fetchedItem
     }
 }

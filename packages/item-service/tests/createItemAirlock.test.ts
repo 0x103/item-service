@@ -5,6 +5,10 @@ import logger from "./utils/mockLogger";
 describe("Given CreateItem Airlock Handler", () => {
     let createItemAirlockHandler;
     let natsConnection;
+    const DEFAULT_STUDIO_HEADERS = {
+        studio_id: "studio_id",
+        is_studio: "true"
+    };
 
     beforeEach(() => {
         natsConnection = {
@@ -18,6 +22,26 @@ describe("Given CreateItem Airlock Handler", () => {
         );
     });
 
+    describe("When called with an invalid token type", () => {
+        it("Then throws an error indicating a bad token", () => {
+            expect(
+                createItemAirlockHandler.handle({
+                    body: {
+                        total_quantity: 10,
+                        available_quantity: 10,
+                        data: {},
+                        frozen: false
+                    },
+                    headers: {
+                        studio_id: 'studio_id',
+                        user_id: "unique_user_id",
+                        is_studio: "false"
+                    }
+                })
+            ).rejects.toThrow("INVALID_JWT_STUDIO");
+        });
+    });
+
     describe("When called with an invalid message body", () => {
         it("Then throws an error when name is missing", () => {
             expect(
@@ -27,9 +51,10 @@ describe("Given CreateItem Airlock Handler", () => {
                         available_quantity: 10,
                         data: {},
                         frozen: false
-                    }
+                    },
+                    headers: DEFAULT_STUDIO_HEADERS
                 })
-            ).rejects.toThrow('"name" is required');
+            ).rejects.toThrow("\"name\" is required");
         });
 
         it("Then throws an error when name is too long", () => {
@@ -40,10 +65,11 @@ describe("Given CreateItem Airlock Handler", () => {
                         total_quantity: 10,
                         data: {},
                         frozen: false
-                    }
+                    },
+                    headers: DEFAULT_STUDIO_HEADERS
                 })
             ).rejects.toThrow(
-                '"name" length must be less than or equal to 100 characters long'
+                "\"name\" length must be less than or equal to 100 characters long"
             );
         });
 
@@ -55,9 +81,10 @@ describe("Given CreateItem Airlock Handler", () => {
                         total_quantity: 10,
                         data: {},
                         frozen: false
-                    }
+                    },
+                    headers: DEFAULT_STUDIO_HEADERS
                 })
-            ).rejects.toThrow('"available_quantity" is required');
+            ).rejects.toThrow("\"available_quantity\" is required");
         });
 
         it("Then throws an error when available_quantity is negative", () => {
@@ -69,10 +96,11 @@ describe("Given CreateItem Airlock Handler", () => {
                         available_quantity: -1,
                         data: {},
                         frozen: false
-                    }
+                    },
+                    headers: DEFAULT_STUDIO_HEADERS
                 })
             ).rejects.toThrow(
-                '"available_quantity" must be greater than or equal to 0'
+                "\"available_quantity\" must be greater than or equal to 0"
             );
         });
 
@@ -87,9 +115,10 @@ describe("Given CreateItem Airlock Handler", () => {
                             test: true
                         },
                         frozen: false
-                    }
+                    },
+                    headers: DEFAULT_STUDIO_HEADERS
                 })
-            ).rejects.toThrow('"data.test" must be a string');
+            ).rejects.toThrow("\"data.test\" must be a string");
         });
     });
 
@@ -112,7 +141,8 @@ describe("Given CreateItem Airlock Handler", () => {
                     available_quantity: 10,
                     data: {},
                     frozen: false
-                }
+                },
+                headers: DEFAULT_STUDIO_HEADERS
             });
         });
 

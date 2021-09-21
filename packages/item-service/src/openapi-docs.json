@@ -16,12 +16,16 @@
                 "summary": "Create a new item",
                 "operationId": "createItem",
                 "requestBody": {
-                    "description": "Create a new item. The item_id will automatically be assigned by the platform.",
+                    "description": "Create a new item. The item_id will automatically be assigned by the platform. The user_id is optional.",
                     "content": {
                         "application/json": {
                             "schema": {
                                 "type": "object",
                                 "properties": {
+                                    "user_id": {
+                                        "type": "string",
+                                        "example": "optional_unique_user_id"
+                                    },
                                     "frozen": {
                                         "type": "boolean"
                                     },
