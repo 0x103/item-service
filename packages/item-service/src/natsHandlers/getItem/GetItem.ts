@@ -6,7 +6,8 @@ import {
     AirlockMessage,
     Logger,
     Message,
-    PrivateHandler
+    PrivateHandler,
+    isStudio
 } from "common";
 
 import { Item } from "../../entities/item";
@@ -37,6 +38,10 @@ export class GetItemAirlockHandler extends AirlockHandler {
     }
 
     async handle(msg: AirlockMessage): Promise<Item> {
+        if (!isStudio(msg.headers)) {
+            throw new Error("Invalid token type, a studio token is required.");
+        }
+
         const item_id = Number(msg.subject.split(".")[2]);
 
         this.logger.info(`Getting item ${item_id}`);

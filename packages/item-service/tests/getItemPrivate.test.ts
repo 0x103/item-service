@@ -6,15 +6,7 @@ describe("Given GetItem Handler", () => {
 
     beforeEach(() => {
         itemRepository = {
-            getItem: jest.fn()
-        };
-
-        getItemHandler = new GetItemHandler("test-service", itemRepository);
-    });
-
-    describe("When called with an item id by an invalid studio", () => {
-        beforeEach(async () => {
-            itemRepository.getItem.mockReturnValue({
+            getItem: jest.fn().mockReturnValue({
                 item_id: 1,
                 studio_id: "studio_id",
                 name: "laboris ut eu",
@@ -22,9 +14,13 @@ describe("Given GetItem Handler", () => {
                 total_quantity: 10,
                 is_frozen: false,
                 data: {}
-            });
-        });
+            })
+        };
 
+        getItemHandler = new GetItemHandler("test-service", itemRepository);
+    });
+
+    describe("When called with an item id by an invalid studio", () => {
         it("Then throws an error about the given token.", () => {
             expect(
                 getItemHandler.handle({
@@ -42,16 +38,6 @@ describe("Given GetItem Handler", () => {
         let response;
 
         beforeEach(async () => {
-            itemRepository.getItem.mockReturnValue({
-                item_id: 1,
-                studio_id: "studio_id",
-                name: "laboris ut eu",
-                available_quantity: 10,
-                total_quantity: 10,
-                is_frozen: false,
-                data: {}
-            });
-
             response = await getItemHandler.handle({
                 data: {
                     item_id: 1,
@@ -59,10 +45,6 @@ describe("Given GetItem Handler", () => {
                     is_studio: "true"
                 }
             });
-        });
-
-        it("Then request a created item", () => {
-            expect(itemRepository.getItem.mock.calls[0][0]).toEqual(1);
         });
 
         it("Then returns the data of the requested item", () => {
