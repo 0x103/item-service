@@ -15,34 +15,6 @@ describe("Given GetItem Handler", () => {
         );
     });
 
-    describe("When called with an item id by an invalid user", () => {
-        beforeEach(async () => {
-            itemRepository.getItem.mockReturnValue({
-                "item_id": 1,
-                "studio_id": "studio_id",
-                "user_id": "unique_user_id_2",
-                "name": "laboris ut eu",
-                "available_quantity": 10,
-                "total_quantity": 10,
-                "is_frozen": false,
-                "data": {}
-            });
-        });
-
-        it("Then throws an error about the given token.", () => {
-            expect(
-                getItemHandler.handle({
-                    data: {
-                        item_id: 1,
-                        studio_id: "studio_id",
-                        is_studio: "false",
-                        user_id: "unique_user_id_1"
-                    }
-                })
-            ).rejects.toThrow("INVALID_USER_ID");
-        });
-    });
-
     describe("When called with an item id by an invalid studio", () => {
         beforeEach(async () => {
             itemRepository.getItem.mockReturnValue({
@@ -62,7 +34,7 @@ describe("Given GetItem Handler", () => {
                     data: {
                         item_id: 1,
                         studio_id: "studio_id_2",
-                        is_studio: "true",
+                        is_studio: "true"
                     }
                 })
             ).rejects.toThrow("INVALID_STUDIO_ID");
@@ -87,8 +59,7 @@ describe("Given GetItem Handler", () => {
                 data: {
                     item_id: 1,
                     studio_id: "studio_id",
-                    is_studio: "true",
-                    user_id: undefined
+                    is_studio: "true"
                 }
             });
         });

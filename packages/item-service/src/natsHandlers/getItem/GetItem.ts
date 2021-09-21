@@ -8,8 +8,7 @@ import { ItemRepository } from "../../repositories/ItemRepository";
 interface GetItemPayloadInterface {
     item_id: number,
     is_studio: string,
-    studio_id: string,
-    user_id: string
+    studio_id: string
 }
 
 export class GetItemAirlockHandler extends AirlockHandler {
@@ -41,7 +40,6 @@ export class GetItemAirlockHandler extends AirlockHandler {
                 item_id,
                 is_studio: msg.headers?.is_studio,
                 studio_id: msg.headers?.studio_id,
-                user_id: msg.headers?.user_id
             })
         );
 
@@ -70,9 +68,7 @@ export class GetItemHandler extends PrivateHandler {
         const fetchedItem = await this.itemRepository.getItem(data.item_id);
 
         if (data?.is_studio !== "true") {
-            if (fetchedItem.user_id !== data?.user_id) {
-                throw new Error("INVALID_USER_ID");
-            }
+            throw new Error("INVALID_JWT_STUDIO");
         } else {
             if (fetchedItem.studio_id !== data?.studio_id) {
                 throw new Error("INVALID_STUDIO_ID");

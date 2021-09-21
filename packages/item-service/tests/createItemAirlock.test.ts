@@ -34,7 +34,6 @@ describe("Given CreateItem Airlock Handler", () => {
                     },
                     headers: {
                         studio_id: 'studio_id',
-                        user_id: "unique_user_id",
                         is_studio: "false"
                     }
                 })
