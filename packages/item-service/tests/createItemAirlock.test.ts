@@ -33,7 +33,7 @@ describe("Given CreateItem Airlock Handler", () => {
                         frozen: false
                     },
                     headers: {
-                        studio_id: 'studio_id',
+                        studio_id: "studio_id",
                         is_studio: "false"
                     }
                 })
@@ -53,7 +53,7 @@ describe("Given CreateItem Airlock Handler", () => {
                     },
                     headers: DEFAULT_STUDIO_HEADERS
                 })
-            ).rejects.toThrow("\"name\" is required");
+            ).rejects.toThrow('"name" is required');
         });
 
         it("Then throws an error when name is too long", () => {
@@ -68,7 +68,7 @@ describe("Given CreateItem Airlock Handler", () => {
                     headers: DEFAULT_STUDIO_HEADERS
                 })
             ).rejects.toThrow(
-                "\"name\" length must be less than or equal to 100 characters long"
+                '"name" length must be less than or equal to 100 characters long'
             );
         });
 
@@ -83,7 +83,7 @@ describe("Given CreateItem Airlock Handler", () => {
                     },
                     headers: DEFAULT_STUDIO_HEADERS
                 })
-            ).rejects.toThrow("\"available_quantity\" is required");
+            ).rejects.toThrow('"available_quantity" is required');
         });
 
         it("Then throws an error when available_quantity is negative", () => {
@@ -99,7 +99,7 @@ describe("Given CreateItem Airlock Handler", () => {
                     headers: DEFAULT_STUDIO_HEADERS
                 })
             ).rejects.toThrow(
-                "\"available_quantity\" must be greater than or equal to 0"
+                '"available_quantity" must be greater than or equal to 0'
             );
         });
 
@@ -117,7 +117,7 @@ describe("Given CreateItem Airlock Handler", () => {
                     },
                     headers: DEFAULT_STUDIO_HEADERS
                 })
-            ).rejects.toThrow("\"data.test\" must be a string");
+            ).rejects.toThrow('"data.test" must be a string');
         });
     });
 

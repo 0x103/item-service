@@ -9,22 +9,19 @@ describe("Given GetItem Handler", () => {
             getItem: jest.fn()
         };
 
-        getItemHandler = new GetItemHandler(
-            "test-service",
-            itemRepository
-        );
+        getItemHandler = new GetItemHandler("test-service", itemRepository);
     });
 
     describe("When called with an item id by an invalid studio", () => {
         beforeEach(async () => {
             itemRepository.getItem.mockReturnValue({
-                "item_id": 1,
-                "studio_id": "studio_id",
-                "name": "laboris ut eu",
-                "available_quantity": 10,
-                "total_quantity": 10,
-                "is_frozen": false,
-                "data": {}
+                item_id: 1,
+                studio_id: "studio_id",
+                name: "laboris ut eu",
+                available_quantity: 10,
+                total_quantity: 10,
+                is_frozen: false,
+                data: {}
             });
         });
 
@@ -46,13 +43,13 @@ describe("Given GetItem Handler", () => {
 
         beforeEach(async () => {
             itemRepository.getItem.mockReturnValue({
-                "item_id": 1,
-                "studio_id": "studio_id",
-                "name": "laboris ut eu",
-                "available_quantity": 10,
-                "total_quantity": 10,
-                "is_frozen": false,
-                "data": {}
+                item_id: 1,
+                studio_id: "studio_id",
+                name: "laboris ut eu",
+                available_quantity: 10,
+                total_quantity: 10,
+                is_frozen: false,
+                data: {}
             });
 
             response = await getItemHandler.handle({
@@ -70,13 +67,13 @@ describe("Given GetItem Handler", () => {
 
         it("Then returns the data of the requested item", () => {
             expect(response).toEqual({
-                "item_id": 1,
-                "studio_id": "studio_id",
-                "name": "laboris ut eu",
-                "available_quantity": 10,
-                "total_quantity": 10,
-                "is_frozen": false,
-                "data": {}
+                item_id: 1,
+                studio_id: "studio_id",
+                name: "laboris ut eu",
+                available_quantity: 10,
+                total_quantity: 10,
+                is_frozen: false,
+                data: {}
             });
         });
     });

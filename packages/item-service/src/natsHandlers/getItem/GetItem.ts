@@ -1,14 +1,21 @@
 import { JSONCodec, NatsConnection, SubscriptionOptions } from "nats";
 
-import { AIRLOCK_VERBS, AirlockHandler, AirlockMessage, Logger, Message, PrivateHandler } from "common";
+import {
+    AIRLOCK_VERBS,
+    AirlockHandler,
+    AirlockMessage,
+    Logger,
+    Message,
+    PrivateHandler
+} from "common";
 
 import { Item } from "../../entities/item";
 import { ItemRepository } from "../../repositories/ItemRepository";
 
 interface GetItemPayloadInterface {
-    item_id: number,
-    is_studio: string,
-    studio_id: string
+    item_id: number;
+    is_studio: string;
+    studio_id: string;
 }
 
 export class GetItemAirlockHandler extends AirlockHandler {
@@ -39,7 +46,7 @@ export class GetItemAirlockHandler extends AirlockHandler {
             JSONCodec().encode({
                 item_id,
                 is_studio: msg.headers?.is_studio,
-                studio_id: msg.headers?.studio_id,
+                studio_id: msg.headers?.studio_id
             })
         );
 
@@ -75,6 +82,6 @@ export class GetItemHandler extends PrivateHandler {
             }
         }
 
-        return fetchedItem
+        return fetchedItem;
     }
 }

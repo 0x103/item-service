@@ -54,7 +54,9 @@ describe("Given CreateItem  Handler", () => {
         });
 
         it("Then publishes a new ItemCreatedEvent event", () => {
-            expect(eventBus.publish.mock.calls[0][0]).toEqual(new ItemCreatedEvent(1));
+            expect(eventBus.publish.mock.calls[0][0]).toEqual(
+                new ItemCreatedEvent(1)
+            );
         });
     });
 });

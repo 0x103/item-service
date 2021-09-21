@@ -38,8 +38,8 @@ export class CreateItemAirlockHandler extends AirlockHandler {
         }
 
         const itemProps = {
-            ...msg.body as { [key: string]: unknown },
-            "studio_id": msg.headers?.studio_id
+            ...(msg.body as { [key: string]: unknown }),
+            studio_id: msg.headers?.studio_id
         };
         const item = new Item(itemProps as Item);
 
