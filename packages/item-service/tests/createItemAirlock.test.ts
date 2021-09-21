@@ -7,7 +7,7 @@ describe("Given CreateItem Airlock Handler", () => {
     let natsConnection;
     const DEFAULT_STUDIO_HEADERS = {
         studio_id: "studio_id",
-        is_studio: "true"
+        is_studio: true
     };
 
     beforeEach(() => {
@@ -34,7 +34,7 @@ describe("Given CreateItem Airlock Handler", () => {
                     },
                     headers: {
                         studio_id: "studio_id",
-                        is_studio: "false"
+                        is_studio: false
                     }
                 })
             ).rejects.toThrow("INVALID_JWT_STUDIO");

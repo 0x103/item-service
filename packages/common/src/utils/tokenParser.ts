@@ -20,11 +20,11 @@ export function parseJwtToNats(jwt: string): MsgHdrs {
     parsedJwt["studio_id"] = decoded?.cid || "";
     parsedJwt["user_id"] = decoded?.uid || "";
     parsedJwt["username"] = decoded?.sub || "";
-    parsedJwt["is_studio"] = String(decoded?.studio) || "";
+    parsedJwt["is_studio"] = String(decoded?.studio) === "true";
 
     return parsedJwt;
 }
 
-export function isStudio(headers: Record<string, unknown> | undefined): boolean {
-    return headers?.is_studio === "true";
+export function isStudio(headers: Record<string, unknown> = {}): boolean {
+    return headers?.is_studio === true;
 }

@@ -15,7 +15,7 @@ import { ItemRepository } from "../../repositories/ItemRepository";
 
 interface GetItemPayloadInterface {
     item_id: number;
-    is_studio: string;
+    is_studio: boolean;
     studio_id: string;
 }
 
@@ -79,7 +79,7 @@ export class GetItemHandler extends PrivateHandler {
         const data = msg.data as GetItemPayloadInterface;
         const fetchedItem = await this.itemRepository.getItem(data.item_id);
 
-        if (data?.is_studio !== "true") {
+        if (!data?.is_studio) {
             throw new Error("INVALID_JWT_STUDIO");
         } else {
             if (fetchedItem.studio_id !== data?.studio_id) {

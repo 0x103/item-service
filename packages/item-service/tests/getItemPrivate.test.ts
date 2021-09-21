@@ -27,7 +27,7 @@ describe("Given GetItem Handler", () => {
                     data: {
                         item_id: 1,
                         studio_id: "studio_id_2",
-                        is_studio: "true"
+                        is_studio: true
                     }
                 })
             ).rejects.toThrow("INVALID_STUDIO_ID");
@@ -42,7 +42,7 @@ describe("Given GetItem Handler", () => {
                 data: {
                     item_id: 1,
                     studio_id: "studio_id",
-                    is_studio: "true"
+                    is_studio: true
                 }
             });
         });
