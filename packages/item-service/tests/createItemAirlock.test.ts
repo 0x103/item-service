@@ -27,6 +27,7 @@ describe("Given CreateItem Airlock Handler", () => {
             expect(
                 createItemAirlockHandler.handle({
                     body: {
+                        name: "test",
                         total_quantity: 10,
                         available_quantity: 10,
                         data: {},
@@ -37,7 +38,9 @@ describe("Given CreateItem Airlock Handler", () => {
                         is_studio: false
                     }
                 })
-            ).rejects.toThrow("INVALID_JWT_STUDIO");
+            ).rejects.toThrow(
+                "Invalid token type, a studio token is required."
+            );
         });
     });
 

@@ -25,6 +25,6 @@ export function parseJwtToNats(jwt: string): MsgHdrs {
     return parsedJwt;
 }
 
-export function isStudio(headers: Record<string, unknown> = {}): boolean {
-    return headers?.is_studio === true;
+export function isStudio(headers: Record<string, unknown>): boolean {
+    return headers.is_studio === true;
 }

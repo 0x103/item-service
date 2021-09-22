@@ -7,7 +7,7 @@ export class AirlockMessage {
   sid: number;
   body: unknown;
   query: Record<string, unknown>;
-  headers?: Record<string, unknown>;
+  headers: Record<string, unknown>;
 
   constructor({ subject, reply, sid, data, headers }: Msg) {
     const { body, query } = JSONCodec().decode(data) as {
@@ -29,7 +29,7 @@ export class Message {
   reply?: string;
   sid: number;
   data: unknown;
-  headers?: Record<string, unknown>;
+  headers: Record<string, unknown>;
 
   constructor({ subject, reply, sid, data, headers }: Msg) {
     this.subject = subject;
@@ -43,16 +43,14 @@ export class Message {
 }
 
 function natsHeadersToObject(headers: MsgHdrs): Record<string, unknown> {
-  let obj = Object.create(null);
+  const obj = Object.create(null);
 
   for (const [key] of headers) {
     obj[key] = headers.get(key);
   }
 
   if (obj['authorization']) {
-    const authProps = parseJwtToNats(obj['authorization']);
-
-    obj = {...obj, ...authProps}
+    Object.assign(obj, parseJwtToNats(obj['authorization']));
   }
 
   return obj;
