@@ -1,4 +1,10 @@
-import { knex, Knex } from "knex";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Knex, knex } from "knex";
+
+
+
+import { attachPaginate } from "knex-paginate";
+
 
 export function makeKnexClient(
     PGSQL_HOST: string,
@@ -6,6 +12,8 @@ export function makeKnexClient(
     PGSQL_PASSWORD: string,
     PGSQL_DATABASE: string
 ): Knex {
+    attachPaginate();
+
     return knex({
         client: "pg",
         connection: {

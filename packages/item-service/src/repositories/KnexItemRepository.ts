@@ -24,4 +24,9 @@ export class KnexItemRepository implements ItemRepository {
 
         return new Item(result[0]);
     }
+
+    async getItems(page: number): Promise<[Promise<Item>]> {
+
+
+    }
 }
